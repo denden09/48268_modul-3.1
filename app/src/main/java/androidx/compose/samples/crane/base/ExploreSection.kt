@@ -63,6 +63,13 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest.Builder
 import kotlinx.coroutines.launch
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.foundation.layout.navigationBarsPadding
+import kotlinx.coroutines.launch
 
 @Composable
 fun ExploreSection(
