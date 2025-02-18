@@ -75,7 +75,7 @@ fun CraneHome(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun CraneHomeContent(
+fun CraneHomeContent(
     onExploreItemClicked: OnExploreItemClicked,
     openDrawer: () -> Unit,
     modifier: Modifier = Modifier,
