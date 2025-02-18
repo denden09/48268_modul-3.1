@@ -64,6 +64,9 @@ import com.google.maps.android.ktx.addMarker
 import com.google.maps.android.ktx.awaitMap
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.produceState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.CircularProgressIndicator
 
 internal const val KEY_ARG_DETAILS_CITY_NAME = "KEY_ARG_DETAILS_CITY_NAME"
 
