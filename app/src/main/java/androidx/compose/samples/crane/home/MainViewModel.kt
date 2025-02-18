@@ -44,7 +44,10 @@ class MainViewModel @Inject constructor(
 
     private val _suggestedDestinations = MutableStateFlow<List<ExploreModel>>(emptyList())
     val suggestedDestinations: StateFlow<List<ExploreModel>> = _suggestedDestinations.asStateFlow()
-    
+
+    init {
+        _suggestedDestinations.value = destinationsRepository.destinations
+    }
 
     fun updatePeople(people: Int) {
         viewModelScope.launch {
