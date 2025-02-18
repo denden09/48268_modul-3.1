@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package androidx.compose.samples.crane.home
 
 import androidx.compose.animation.animateColor
@@ -41,6 +25,12 @@ import androidx.compose.samples.crane.home.PeopleUserInputAnimationState.Valid
 import androidx.compose.samples.crane.ui.CraneTheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.coroutines.flow.filter
+import androidx.compose.samples.crane.base.rememberEditableUserInputState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 
 enum class PeopleUserInputAnimationState { Valid, Invalid }
@@ -102,22 +92,27 @@ fun FromDestination() {
 
 @Composable
 fun ToDestinationUserInput(onToDestinationChanged: (String) -> Unit) {
-    val editableUserInputState = rememberEditableUserInputState(hint = "Choose Destination")
+    // No need to pass the state as it's handled internally in CraneEditableUserInput
     CraneEditableUserInput(
-        state = editableUserInputState,
-        caption = "To",
-        vectorImageId = R.drawable.ic_plane
+        hint = "Choose Destination", // Provide the hint directly
+        caption = "To", // The label or caption for the input
+        vectorImageId = R.drawable.ic_plane,
+        onInputChanged = { newText ->
+            // Handle text input changes
+            onToDestinationChanged(newText)
+        }
     )
 
+    // Using LaunchedEffect and snapshotFlow to observe changes in the editable input state
     val currentOnDestinationChanged by rememberUpdatedState(onToDestinationChanged)
-    LaunchedEffect(editableUserInputState) {
-        snapshotFlow { editableUserInputState.text }
-            .filter { !editableUserInputState.isHint }
+    LaunchedEffect(currentOnDestinationChanged) {
+        snapshotFlow { currentOnDestinationChanged }
             .collect {
-                currentOnDestinationChanged(editableUserInputState.text)
+                // Additional logic if needed
             }
     }
 }
+
 
 @Composable
 fun DatesUserInput() {
